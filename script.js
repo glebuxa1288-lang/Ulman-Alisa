@@ -2,6 +2,31 @@ const data = window.PORTFOLIO;
 const projectsNode = document.querySelector("#projects");
 const filtersNode = document.querySelector("#filters");
 const dialog = document.querySelector("#project-dialog");
+const lightbox = document.querySelector("#image-lightbox");
+const lightboxImage = lightbox.querySelector(".lightbox-image");
+const lightboxScale = lightbox.querySelector(".lightbox-scale");
+
+function openImageLightbox(image) {
+  lightboxImage.src = image.currentSrc || image.src;
+  lightboxImage.alt = image.alt;
+  lightbox.querySelector(".lightbox-caption").textContent = image.alt;
+  lightboxImage.classList.remove("actual-size");
+  lightboxScale.textContent = "100%";
+  lightbox.showModal();
+}
+
+document.querySelector("#dialog-content").addEventListener("click", event => {
+  const image = event.target.closest(".gallery-image");
+  if (image) openImageLightbox(image);
+});
+document.querySelector(".lightbox-close").addEventListener("click", () => lightbox.close());
+lightbox.addEventListener("click", event => { if (event.target === lightbox) lightbox.close(); });
+function toggleLightboxScale() {
+  const actualSize = lightboxImage.classList.toggle("actual-size");
+  lightboxScale.textContent = actualSize ? "Вписать" : "100%";
+}
+lightboxScale.addEventListener("click", toggleLightboxScale);
+lightboxImage.addEventListener("click", toggleLightboxScale);
 
 document.querySelectorAll("[data-profile]").forEach((node) => {
   const key = node.dataset.profile;
@@ -53,7 +78,11 @@ function render() {
     const info = document.createElement("span"); info.className = "project-info";
     info.innerHTML = `<span><strong>${escapeHtml(project.title)}</strong><small>${escapeHtml(project.category)}</small></span><span class="project-year" aria-hidden="true">↗</span>`;
     card.append(visual, info);
-    card.addEventListener("click", () => openProject(project));
+    card.addEventListener("click", event => {
+      const image = event.target.closest(".project-visual img");
+      if (image) openImageLightbox(image);
+      else openProject(project);
+    });
     projectsNode.append(card);
   });
   document.querySelector("#demo-note").hidden = !data.projects.some(p => p.demo);
