@@ -122,7 +122,16 @@
   <dialog class="image-lightbox" id="image-lightbox" aria-label="Просмотр изображения">
     <button class="lightbox-close" type="button" aria-label="Закрыть изображение">×</button>
     <div class="lightbox-stage"><img class="lightbox-image" alt=""></div>
-    <div class="lightbox-toolbar"><span class="lightbox-caption"></span><button class="lightbox-scale" type="button">100%</button><span class="lightbox-hint">Esc — закрыть</span></div>
+    <div class="lightbox-toolbar">
+      <span class="lightbox-caption"></span>
+      <div class="lightbox-nav" hidden>
+        <button class="lightbox-prev" type="button" aria-label="Предыдущее изображение">←</button>
+        <span class="lightbox-count"></span>
+        <button class="lightbox-next" type="button" aria-label="Следующее изображение">→</button>
+      </div>
+      <button class="lightbox-scale" type="button">100%</button>
+      <span class="lightbox-hint">← → листать · Esc закрыть</span>
+    </div>
   </dialog>
 </body>
 </html>

@@ -5,28 +5,69 @@ const dialog = document.querySelector("#project-dialog");
 const lightbox = document.querySelector("#image-lightbox");
 const lightboxImage = lightbox.querySelector(".lightbox-image");
 const lightboxScale = lightbox.querySelector(".lightbox-scale");
+const lightboxNav = lightbox.querySelector(".lightbox-nav");
+let lightboxGallery = [];
+let lightboxIndex = 0;
+let lightboxTitle = "";
+let suppressLightboxImageClick = false;
 
-function openImageLightbox(image) {
-  lightboxImage.src = image.currentSrc || image.src;
-  lightboxImage.alt = image.alt;
-  lightbox.querySelector(".lightbox-caption").textContent = image.alt;
+function showLightboxImage(index) {
+  lightboxIndex = (index + lightboxGallery.length) % lightboxGallery.length;
+  lightboxImage.src = lightboxGallery[lightboxIndex];
+  lightboxImage.alt = `${lightboxTitle} — изображение ${lightboxIndex + 1}`;
+  lightbox.querySelector(".lightbox-caption").textContent = lightboxTitle;
+  lightbox.querySelector(".lightbox-count").textContent = `${lightboxIndex + 1} / ${lightboxGallery.length}`;
+  lightboxNav.hidden = lightboxGallery.length < 2;
   lightboxImage.classList.remove("actual-size");
   lightboxScale.textContent = "100%";
+}
+
+function openImageLightbox(image, gallery = [], index = 0, title = "") {
+  lightboxGallery = gallery.length ? gallery : [image.currentSrc || image.src];
+  lightboxTitle = title || image.alt.replace(/\s+[—-]\s+превью проекта$/i, "");
+  showLightboxImage(index);
   lightbox.showModal();
 }
 
 document.querySelector("#dialog-content").addEventListener("click", event => {
   const image = event.target.closest(".gallery-image");
-  if (image) openImageLightbox(image);
+  if (!image) return;
+  const frame = image.closest(".gallery-frame");
+  const gallery = frame._gallery || [image.currentSrc || image.src];
+  openImageLightbox(image, gallery, frame._galleryIndex || 0, frame._galleryTitle || image.alt);
 });
 document.querySelector(".lightbox-close").addEventListener("click", () => lightbox.close());
 lightbox.addEventListener("click", event => { if (event.target === lightbox) lightbox.close(); });
+lightbox.querySelector(".lightbox-prev").addEventListener("click", () => showLightboxImage(lightboxIndex - 1));
+lightbox.querySelector(".lightbox-next").addEventListener("click", () => showLightboxImage(lightboxIndex + 1));
+lightbox.addEventListener("keydown", event => {
+  if (event.key === "ArrowLeft" && lightboxGallery.length > 1) { event.preventDefault(); showLightboxImage(lightboxIndex - 1); }
+  if (event.key === "ArrowRight" && lightboxGallery.length > 1) { event.preventDefault(); showLightboxImage(lightboxIndex + 1); }
+});
+const lightboxStage = lightbox.querySelector(".lightbox-stage");
+let swipeStart = null;
+lightboxStage.addEventListener("pointerdown", event => {
+  swipeStart = event.pointerType === "touch" && !lightboxImage.classList.contains("actual-size") ? event.clientX : null;
+});
+lightboxStage.addEventListener("pointerup", event => {
+  if (swipeStart === null || lightboxGallery.length < 2) return;
+  const distance = event.clientX - swipeStart;
+  if (Math.abs(distance) > 55) {
+    suppressLightboxImageClick = true;
+    showLightboxImage(lightboxIndex + (distance < 0 ? 1 : -1));
+    setTimeout(() => { suppressLightboxImageClick = false; }, 0);
+  }
+  swipeStart = null;
+});
 function toggleLightboxScale() {
   const actualSize = lightboxImage.classList.toggle("actual-size");
   lightboxScale.textContent = actualSize ? "Вписать" : "100%";
 }
 lightboxScale.addEventListener("click", toggleLightboxScale);
-lightboxImage.addEventListener("click", toggleLightboxScale);
+lightboxImage.addEventListener("click", () => {
+  if (suppressLightboxImageClick) return;
+  toggleLightboxScale();
+});
 
 document.querySelectorAll("[data-profile]").forEach((node) => {
   const key = node.dataset.profile;
@@ -80,7 +121,11 @@ function render() {
     card.append(visual, info);
     card.addEventListener("click", event => {
       const image = event.target.closest(".project-visual img");
-      if (image) openImageLightbox(image);
+      if (image) {
+        const gallery = project.images || (project.image ? [project.image] : [cover]);
+        const index = Math.max(0, gallery.indexOf(cover));
+        openImageLightbox(image, gallery, index, project.title);
+      }
       else openProject(project);
     });
     projectsNode.append(card);
@@ -94,9 +139,14 @@ function openProject(p) {
   const galleryMarkup = first ? `<div class="project-gallery" data-index="0"><div class="gallery-frame"><img class="gallery-image" src="${escapeHtml(first)}" alt="${escapeHtml(p.title)}" fetchpriority="high"></div>${gallery.length > 1 ? `<button class="gallery-control gallery-prev" type="button" aria-label="Предыдущее изображение">←</button><button class="gallery-control gallery-next" type="button" aria-label="Следующее изображение">→</button><span class="gallery-count">1 / ${gallery.length}</span>` : ""}</div>` : `<div class="dialog-visual ${escapeHtml(p.color || "sage")}"><span>${escapeHtml(p.number || "✳")}</span></div>`;
   const sources = (p.sourceFiles || []).map(file => `<a href="${escapeHtml(encodeURI(file.path))}" target="_blank" rel="noreferrer">${escapeHtml(file.label)} ↗</a>`).join("");
   document.querySelector("#dialog-content").innerHTML = `${galleryMarkup}<p class="eyebrow">${escapeHtml(p.category)}</p><h2>${escapeHtml(p.title)}</h2><p>${escapeHtml(p.description || "")}</p>${sources ? `<div class="project-source-links"><span class="meta-label">Материалы проекта</span>${sources}</div>` : ""}`;
+  let index = 0;
+  const frame = dialog.querySelector(".gallery-frame");
+  if (frame) {
+    frame._gallery = gallery;
+    frame._galleryIndex = index;
+    frame._galleryTitle = p.title;
+  }
   if (gallery.length > 1) {
-    let index = 0;
-    const frame = dialog.querySelector(".gallery-frame");
     const counter = dialog.querySelector(".gallery-count");
     const show = next => {
       index = (next + gallery.length) % gallery.length;
@@ -106,6 +156,7 @@ function openProject(p) {
       img.alt = `${p.title} — изображение ${index + 1}`;
       img.fetchPriority = "high";
       frame.replaceChildren(img);
+      frame._galleryIndex = index;
       counter.textContent = `${index + 1} / ${gallery.length}`;
     };
     dialog.querySelector(".gallery-prev").addEventListener("click", () => show(index - 1));
