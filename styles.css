@@ -88,3 +88,29 @@ footer{padding:58px 0 22px}
 .hero-role{font:500 clamp(17px,1.8vw,23px)/1.4 var(--display);letter-spacing:-.035em;margin:18px 0 0;color:#41423c}
 .hero-description{font-size:13px;line-height:1.75;margin:7px 0 24px;max-width:430px}
 @media(max-width:720px){.hero-copy .eyebrow{font-size:11px;margin-bottom:18px}.hero-copy h1{font-size:clamp(44px,11vw,64px)}.hero-role{font-size:18px;margin-top:14px}.hero-description{margin:7px 0 22px}}
+
+/* Profile section follows the editorial layout from the PDF portfolio. */
+.about-section{display:block;padding-top:92px;padding-bottom:92px}
+.about-title{border-bottom:1px solid var(--line);padding-bottom:19px;margin-bottom:27px}
+.about-title .eyebrow{margin-bottom:15px}
+.about-title h2{font-size:clamp(38px,4.2vw,56px);line-height:1.05;letter-spacing:-.055em}
+.profile-columns{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.profile-column>.meta-label{display:block;margin-bottom:23px;font-size:11px}
+.education-entry{padding:0 0 22px;margin-bottom:22px;border-bottom:1px solid var(--line)}
+.education-entry:last-child{border-bottom:0;margin-bottom:0}
+.profile-year{font:700 18px var(--display);color:#75865e}
+.education-entry h3,.experience-entry h3{font:700 27px/1.2 var(--display);letter-spacing:-.035em;margin:11px 0 4px}
+.education-entry p,.experience-entry p{font:400 17px/1.5 var(--sans);color:var(--muted);margin:0}
+.experience-entry h3{font-size:31px;margin:0 0 7px}
+.experience-entry .experience-role{font-size:20px;color:var(--ink);margin-bottom:3px}
+.experience-entry small{display:block;font-size:13px;color:#a1a198;margin-top:12px}
+.skills-entry{border-top:1px solid var(--line);margin-top:26px;padding-top:18px}
+.skills-entry .meta-label{font-size:11px}
+.skills-entry p{font-size:15px;line-height:1.55;margin:13px 0 0;color:var(--ink)}
+.about-section .software-column{display:grid;grid-template-columns:190px 1fr;align-items:center;gap:16px;margin-top:35px;padding:17px 0 0;border:0;border-top:1px solid var(--line)}
+.software-column>.meta-label{margin:0;font-size:11px}
+.about-section .software-list{grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.about-section .software-list li{font-size:12px;gap:9px;white-space:nowrap}
+.software-icon{border-radius:2px}
+@media(max-width:980px){.about-section .software-column{grid-template-columns:1fr;gap:15px}.about-section .software-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:720px){.about-section{padding-top:72px;padding-bottom:72px}.profile-columns{grid-template-columns:1fr;gap:28px}.profile-column>.meta-label{margin-bottom:17px}.about-section .software-column{margin-top:28px}.about-section .software-list{grid-template-columns:repeat(2,minmax(0,1fr))}.education-entry h3,.experience-entry h3{font-size:24px}.skills-entry p{font-size:14px}}

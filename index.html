@@ -17,8 +17,8 @@
   <header class="topbar">
     <a class="brand" href="#top" aria-label="На главную">А.</a>
     <nav aria-label="Основная навигация">
-      <a href="#works">Работы</a>
       <a href="#about">Обо мне</a>
+      <a href="#works">Работы</a>
       <a class="nav-contact" href="#contact">Связаться <span>↗</span></a>
     </nav>
   </header>
@@ -38,38 +38,61 @@
       <div class="hero-bottom"><span>Независимый дизайнер</span><span>Москва · Работаю по всему миру</span><span>Листайте вниз ↓</span></div>
     </section>
 
-    <section class="works-section" id="works">
-      <div class="wrap">
-        <div class="section-heading">
-          <div><p class="eyebrow">01 / Все работы</p><h2>Работы<span class="muted">.</span></h2></div>
-          <p class="section-aside">Проекты из архива<br>по разделам портфолио</p>
-        </div>
-        <div class="filters" role="group" aria-label="Фильтр работ" id="filters"></div>
-        <div class="project-grid" id="projects"></div>
-        <p class="demo-note" id="demo-note">Демонстрационные проекты — замените их своими в файле <code>projects.js</code>.</p>
-      </div>
-    </section>
-
     <section class="about-section wrap" id="about">
-      <div class="section-heading"><div><p class="eyebrow">02 / Немного обо мне</p><h2>Образование<br>и опыт<span class="muted">.</span></h2></div></div>
-        <div class="about-content">
-        <p class="about-lead" data-profile="about">Графический дизайнер с опытом почти два года. Работаю с айдентикой, полиграфией и рекламной графикой, развиваюсь в рекламе и связях с общественностью.</p>
-        <div class="about-meta">
-          <div><span class="meta-label">Образование</span><p data-profile="education">НИУ МЭИ · реклама и связи с общественностью<br>МИПК им. Фёдорова · красный диплом</p></div>
-          <div><span class="meta-label">Опыт работы</span><p data-profile="experience">Графический дизайнер в продуктовом магазине «Малинка»</p></div>
+      <div class="about-title">
+        <p class="eyebrow">01 / Профиль</p>
+        <h2>Образование и опыт</h2>
+      </div>
+      <div class="profile-columns">
+        <div class="profile-column">
+          <span class="meta-label">Образование</span>
+          <div class="education-entry">
+            <strong class="profile-year">2025—2030</strong>
+            <h3>НИУ МЭИ</h3>
+            <p>Реклама и связи с общественностью</p>
+          </div>
+          <div class="education-entry">
+            <strong class="profile-year">2023—2025</strong>
+            <h3>МИПК им. Фёдорова</h3>
+            <p>Окончила с красным дипломом</p>
+          </div>
         </div>
-        <div class="about-extra"><span class="meta-label">Дополнительные навыки</span><p data-profile="skills">Курсы черчения и архитектурного рисунка · базовый AutoCAD · ландшафтный дизайн · простые визуализации в 3D Max · нейросети и вайб-кодинг</p></div>
+        <div class="profile-column">
+          <span class="meta-label">Опыт работы</span>
+          <div class="experience-entry">
+            <h3>Почти 2 года</h3>
+            <p class="experience-role">Графический дизайнер</p>
+            <p>Продуктовый магазин «Малинка»</p>
+            <small>Работа у частного лица</small>
+          </div>
+          <div class="skills-entry">
+            <span class="meta-label">Дополнительные навыки</span>
+            <p>Курсы черчения и архитектурного рисунка. Базовые знания AutoCAD и ландшафтного дизайна, простые 3D-визуализации в 3ds Max. Нейросети в работе и вайб-кодинг.</p>
+          </div>
+        </div>
       </div>
       <div class="software-column">
         <p class="meta-label">Знание программ</p>
         <ul class="software-list">
           <li><span class="software-icon adobe-ai" aria-hidden="true">Ai</span><span>Adobe Illustrator</span></li>
-          <li><span class="software-icon adobe-ps" aria-hidden="true">Ps</span><span>Adobe Photoshop</span></li>
-          <li><span class="software-icon adobe-id" aria-hidden="true">Id</span><span>Adobe InDesign</span></li>
+          <li><span class="software-icon adobe-ps" aria-hidden="true">Ps</span><span>Photoshop</span></li>
+          <li><span class="software-icon adobe-id" aria-hidden="true">Id</span><span>InDesign</span></li>
           <li><span class="software-icon autocad" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 3 29 28h-7l-2-5h-9l-2 5H3L16 3Zm0 10-3 6h6l-3-6Z"/></svg></span><span>AutoCAD</span></li>
           <li><span class="software-icon max-icon" aria-hidden="true">3</span><span>3ds Max</span></li>
           <li><span class="software-icon figma-icon" aria-hidden="true"><svg viewBox="0 0 24 36"><path fill="#f24e1e" d="M12 0H6a6 6 0 0 0 0 12h6z"/><path fill="#ff7262" d="M12 0h6a6 6 0 0 1 0 12h-6z"/><path fill="#a259ff" d="M6 12a6 6 0 0 0 0 12h6V12z"/><circle cx="18" cy="18" r="6" fill="#1abcfe"/><path fill="#0acf83" d="M6 24a6 6 0 0 0 6 6v-6z"/></svg></span><span>Figma</span></li>
         </ul>
+      </div>
+    </section>
+
+    <section class="works-section" id="works">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="eyebrow">02 / Все работы</p><h2>Работы<span class="muted">.</span></h2></div>
+          <p class="section-aside">Проекты из архива<br>по разделам портфолио</p>
+        </div>
+        <div class="filters" role="group" aria-label="Фильтр работ" id="filters"></div>
+        <div class="project-grid" id="projects"></div>
+        <p class="demo-note" id="demo-note">Демонстрационные проекты — замените их своими в файле <code>projects.js</code>.</p>
       </div>
     </section>
 
